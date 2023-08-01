@@ -1,7 +1,8 @@
 /// <summary>
 /// The details of an Artist.
 /// </summary>
-public class Artist {
+public class Artist
+{
     /// <summary> The id of the artist </summary>
     private string Id;
 
@@ -19,7 +20,8 @@ public class Artist {
     /// </summary>
     ///
     /// <param name = "artist"> The raw data of the artist </param>
-    public Artist(RawData.Artist artist) {
+    public Artist(RawData.Artist artist)
+    {
         this.Id = artist.id;
         this.Name = artist.name;
         this.Role = artist.role;

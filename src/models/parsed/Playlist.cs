@@ -3,7 +3,8 @@ using Newtonsoft.Json;
 /// <summary>
 /// The details of a playlist.
 /// </summary>
-public class Playlist {
+public class Playlist
+{
     /// <summary> The id of the playlist </summary>
     private string Id;
 
@@ -18,7 +19,8 @@ public class Playlist {
     /// </summary>
     ///
     /// <param name="url"> The playlist data URL </param>
-    public Playlist(string url) {
+    public Playlist(string url)
+    {
         // Getting the playlist id from url
         string id = url.Substring(url.LastIndexOf('/') + 1);
 
@@ -36,7 +38,8 @@ public class Playlist {
     /// </summary>
     ///
     /// <param name="id"> The id of the playlist </param>
-    private RawData.Playlist GetRawPlayList(string id) {
+    private RawData.Playlist GetRawPlayList(string id)
+    {
         // Preparing the HTTP request
         HttpRequestMessage request = new HttpRequestMessage(
             HttpMethod.Get,
@@ -55,8 +58,10 @@ public class Playlist {
     /// <summary>
     /// Downloads each song in the playlist.
     /// <summary>
-    public void Download() {
-        foreach (Music music in this.Tracks) {
+    public void Download()
+    {
+        foreach (Music music in this.Tracks)
+        {
             music.Download(this.Name);
         }
     }

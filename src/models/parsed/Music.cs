@@ -1,11 +1,12 @@
 using Newtonsoft.Json;
-using Xabe.FFmpeg;
 using TagLib;
+using Xabe.FFmpeg;
 
 /// <summary>
 /// The details of a music.
 /// </summary>
-public class Music {
+public class Music
+{
     /// <summary> The id of the music </summary>
     private string Id;
 
@@ -41,7 +42,8 @@ public class Music {
     /// </summary>
     ///
     /// <param name = "music"> The raw music data </param>
-    public Music(RawData.Music music) {
+    public Music(RawData.Music music)
+    {
         this.Id = music.id;
         this.Title = music.title;
         this.AlbumArtUrl = music.image.Replace("150x150.jpg", "500x500.jpg");
@@ -57,7 +59,8 @@ public class Music {
     /// <summary>
     /// Fetches the direct media URL to the music and stored it in 'this' object.
     /// </summary>
-    private void GetMediaUrl() {
+    private void GetMediaUrl()
+    {
         // Preparing the HTTP request
         HttpRequestMessage request = new HttpRequestMessage(
             HttpMethod.Get,
@@ -76,7 +79,8 @@ public class Music {
     /// </summary>
     ///
     /// <param name="fileName"> The full name of the music file to which metadata is to be appended </param>
-    private void AppendMetadata(string fileName) {
+    private void AppendMetadata(string fileName)
+    {
         // Configuring taglib
         TagLib.Id3v2.Tag.DefaultVersion = 3;
         TagLib.Id3v2.Tag.ForceDefaultVersion = true;
@@ -106,7 +110,8 @@ public class Music {
     /// </summary>
     ///
     /// <param name = "location"> The location where the music is to be saved </param>
-    public void Download(string location) {
+    public void Download(string location)
+    {
         // The full name of the music file
         string fileName = $"{location}\\{this.Album} - {this.Title}.mp3";
 
