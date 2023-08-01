@@ -87,6 +87,12 @@ namespace ParsedData {
             music.Tag.Copyright = this.Copyright;
             music.Tag.Title = this.Title;
             music.Tag.Year = this.Year;
+            music.Tag.Pictures = new TagLib.IPicture[] {
+                new TagLib.Picture() {
+                    Type = TagLib.PictureType.FrontCover,
+                    Data = TagLib.ByteVector.FromStream(Program.client.GetAsync(this.AlbumArtUrl).GetAwaiter().GetResult().Content.ReadAsStream())
+                }
+            };
 
             // Saving the file
             music.Save();
@@ -97,15 +103,21 @@ namespace ParsedData {
         /// </summary>
         ///
         /// <param name = "location">The location where the music is to be saved</param>
-        public async Task Download(string location) {
+        public void Download(string location) {
             // The full name of the music file
             string fileName = $"{location}\\{this.Album} - {this.Title}.mp3";
 
             // Getting the media url
             this.GetMediaUrl();
 
-            // Downloading the song
-            await (await FFmpeg.Conversions.FromSnippet.Convert(this.MediaUrl, fileName)).SetAudioBitrate(320000).Start();
+            // Creating a conversion task
+            var conversionTask = FFmpeg.Conversions.FromSnippet.Convert(this.MediaUrl, fileName).GetAwaiter().GetResult();
+
+            // Setting the bitrate
+            conversionTask.SetAudioBitrate(320000);
+
+            // Converting
+            conversionTask.Start().GetAwaiter().GetResult();
 
             // Appending metadata
             this.AppendMetadata(fileName);
