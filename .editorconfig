@@ -1,6 +1,5 @@
 # Dotnet formatting rules
 [*.cs]
-dotnet_separate_import_directive_groups = true
 
 # CSharp formatting rules
 [*.cs]
