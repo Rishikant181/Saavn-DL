@@ -13,4 +13,3 @@ csharp_indent_case_contents_when_block = false
 csharp_space_after_cast = true
 csharp_space_after_keywords_in_control_flow_statements = true
 csharp_preserve_single_line_statements = false
-csharp_preserve_single_line_blocks = false
