@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 /// <summary>
 /// The details of a playlist.
 /// </summary>
@@ -12,14 +14,42 @@ public class Playlist {
     private List<Music> Tracks;
 
     /// <summary>
-    /// Initializes a new playlist from the raw playlist data.
+    /// Initializes a new playlist from the playlist with given url.
     /// </summary>
     ///
-    /// <param name="playlist"> The raw playlist data </param>
-    public Playlist(RawData.Playlist playlist) {
+    /// <param name="url"> The playlist data URL </param>
+    public Playlist(string url) {
+        // Getting the playlist id from url
+        string id = url.Substring(url.LastIndexOf('/') + 1);
+
+        // Getting the raw playlist
+        RawData.Playlist playlist = this.GetRawPlayList(id);
+
+        // Initializing the playlist
         this.Id = playlist.id;
         this.Name = playlist.title;
         this.Tracks = playlist.list.Select(track => new Music(track)).ToList();
+    }
+
+    /// <summary>
+    /// Fetches the raw playlist details with the given id.
+    /// </summary>
+    ///
+    /// <param name="id"> The id of the playlist </param>
+    private RawData.Playlist GetRawPlayList(string id) {
+        // Preparing the HTTP request
+        HttpRequestMessage request = new HttpRequestMessage(
+            HttpMethod.Get,
+            $"https://www.jiosaavn.com/api.php?__call=webapi.get&token={id}&type=playlist&p=1&n=9999999999&includeMetaTags=0&ctx=web6dot0&api_version=4&_format=json&_marker=0"
+        );
+
+        // Sending the HTTP request and getting the response
+        string response = Program.client.Send(request).Content.ReadAsStringAsync().Result;
+
+        // Deserializing the response
+        RawData.Playlist rawPlaylist = JsonConvert.DeserializeObject<RawData.Playlist>(response)!;
+
+        return rawPlaylist;
     }
 
     /// <summary>

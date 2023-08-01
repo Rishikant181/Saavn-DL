@@ -1,4 +1,6 @@
-﻿class Program {
+﻿using Newtonsoft.Json;
+
+class Program {
     /// <summary>
     /// The global HttpClient to be used.
     /// </summary>
