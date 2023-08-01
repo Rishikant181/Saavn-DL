@@ -78,6 +78,10 @@ namespace ParsedData {
         ///
         /// <param name="fileName">The full name of the music file to which metadata is to be appended</param>
         private void AppendMetadata(string fileName) {
+            // Configuring taglib
+            TagLib.Id3v2.Tag.DefaultVersion = 3;
+            TagLib.Id3v2.Tag.ForceDefaultVersion = true;
+
             // Opening the music file
             TagLib.File music = TagLib.File.Create(fileName);
 
@@ -88,7 +92,7 @@ namespace ParsedData {
             music.Tag.Title = this.Title;
             music.Tag.Year = this.Year;
             music.Tag.Pictures = new TagLib.IPicture[] {
-                new TagLib.Picture() {
+                new TagLib.Id3v2.AttachmentFrame() {
                     Type = TagLib.PictureType.FrontCover,
                     Data = TagLib.ByteVector.FromStream(Program.client.GetAsync(this.AlbumArtUrl).GetAwaiter().GetResult().Content.ReadAsStream())
                 }
