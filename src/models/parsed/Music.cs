@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace ParsedData {
     public class Music {
         /// <summary> The id of the music </summary>
@@ -35,7 +37,7 @@ namespace ParsedData {
         /// </summary>
         ///
         /// <param name = "music">The raw music data</param>
-        Music(RawData.Music music) {
+        public Music(RawData.Music music) {
             this.id = music.id;
             this.title = music.title;
             this.albumArtUrl = music.image.Replace("150x150.jpg", "500x500.jpg");
@@ -46,6 +48,23 @@ namespace ParsedData {
             this.mediaUrl = music.more_info.encrypted_media_url;
             this.copyright = music.more_info.copyright_text;
             this.contributingArtists = music.more_info.artistMap.primary_artists.Select(artist => new Artist(artist)).ToList();
+        }
+
+        /// <summary>
+        /// Fetches the direct media URL to the music and stored it in 'this' object.
+        /// </summary>
+        public async Task GetMediaUrl() {
+            // Preparing the HTTP request
+            HttpRequestMessage request = new HttpRequestMessage(
+                HttpMethod.Get,
+                $"https://www.jiosaavn.com/api.php?__call=song.generateAuthToken&url={this.mediaUrl}&bitrate=320&api_version=4&_format=json&ctx=web6dot0&_marker=0"
+            );
+
+            // Sending the HTTP request and getting the response
+            string response = await Program.client.Send(request).Content.ReadAsStringAsync();
+
+            // Deserializing the response and storing the URL
+            this.mediaUrl = JsonConvert.DeserializeObject<RawData.MediaUrl>(response)!.auth_url;
         }
     }
 }
