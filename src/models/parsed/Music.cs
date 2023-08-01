@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Xabe.FFmpeg;
+using TagLib;
 
 namespace ParsedData {
     /// <summary>
@@ -10,31 +11,31 @@ namespace ParsedData {
         private string Id;
 
         /// <summary> The title of the music </summary>
-        public string Title;
+        private string Title;
 
         /// <summary> The URL to the album art of the music </summary>
-        public string AlbumArtUrl;
+        private string AlbumArtUrl;
 
         /// <summary> The language of the music </summary>
-        public string Language;
+        private string Language;
 
         /// <summary> The year in which this music was released </summary>
-        public string Year;
+        private uint Year;
 
         /// <summary> The name of the album to which this music belongs </summary>
-        public string Album;
+        private string Album;
 
         /// <summary> The label under which the music was released </summary>
-        public string Label;
+        private string Label;
 
         /// <summary> The media url to the music </summary>
-        public string MediaUrl;
+        private string MediaUrl;
 
         /// <summary> The copyright text on the music </summary>
-        public string Copyright;
+        private string Copyright;
 
         /// <summary> The list of primary contributing artists </summary>
-        public List<Artist> ContributingArtists;
+        private List<Artist> ContributingArtists;
 
         /// <summary>
         /// Initializes a new Music from the raw music data.
@@ -46,7 +47,7 @@ namespace ParsedData {
             this.Title = music.title;
             this.AlbumArtUrl = music.image.Replace("150x150.jpg", "500x500.jpg");
             this.Language = music.language;
-            this.Year = music.year;
+            this.Year = UInt16.Parse(music.year);
             this.Album = music.more_info.album;
             this.Label = music.more_info.label;
             this.MediaUrl = music.more_info.encrypted_media_url;
@@ -57,7 +58,7 @@ namespace ParsedData {
         /// <summary>
         /// Fetches the direct media URL to the music and stored it in 'this' object.
         /// </summary>
-        public void GetMediaUrl() {
+        private void GetMediaUrl() {
             // Preparing the HTTP request
             HttpRequestMessage request = new HttpRequestMessage(
                 HttpMethod.Get,
@@ -72,22 +73,42 @@ namespace ParsedData {
         }
 
         /// <summary>
+        /// Appends the metadata of 'this' music to the specified file.
+        /// </summary>
+        ///
+        /// <param name="fileName">The full name of the music file to which metadata is to be appended</param>
+        private void AppendMetadata(string fileName) {
+            // Opening the music file
+            TagLib.File music = TagLib.File.Create(fileName);
+
+            // Adding tags
+            music.Tag.Album = this.Album;
+            music.Tag.Performers = this.ContributingArtists.Select(artist => artist.Name).ToArray<string>();
+            music.Tag.Copyright = this.Copyright;
+            music.Tag.Title = this.Title;
+            music.Tag.Year = this.Year;
+
+            // Saving the file
+            music.Save();
+        }
+
+        /// <summary>
         /// Downloads the music to the given location.
         /// </summary>
         ///
         /// <param name = "location">The location where the music is to be saved</param>
         public async Task Download(string location) {
             // The full name of the music file
-            string fullName = $"{location}\\{this.Album} - {this.Title}";
-
-            // The temporary name of the music file
-            string tempName = $"{fullName}.temp.mp3";
+            string fileName = $"{location}\\{this.Album} - {this.Title}.mp3";
 
             // Getting the media url
             this.GetMediaUrl();
 
-            // Downloading the song to a temporary location
-            await (await FFmpeg.Conversions.FromSnippet.Convert(this.MediaUrl, tempName)).SetAudioBitrate(320000).Start();
+            // Downloading the song
+            await (await FFmpeg.Conversions.FromSnippet.Convert(this.MediaUrl, fileName)).SetAudioBitrate(320000).Start();
+
+            // Appending metadata
+            this.AppendMetadata(fileName);
         }
     }
 }
