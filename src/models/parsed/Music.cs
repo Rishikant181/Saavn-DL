@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Xabe.FFmpeg;
 
 namespace ParsedData {
     /// <summary>
@@ -68,6 +69,25 @@ namespace ParsedData {
 
             // Deserializing the response and storing the URL
             this.MediaUrl = JsonConvert.DeserializeObject<RawData.MediaUrl>(response)!.auth_url;
+        }
+
+        /// <summary>
+        /// Downloads the music to the given location.
+        /// </summary>
+        ///
+        /// <param name = "location">The location where the music is to be saved</param>
+        public async Task Download(string location) {
+            // The full name of the music file
+            string fullName = $"{location}\\{this.Album} - {this.Title}";
+
+            // The temporary name of the music file
+            string tempName = $"{fullName}.temp.mp3";
+
+            // Getting the media url
+            this.GetMediaUrl();
+
+            // Downloading the song to a temporary location
+            await (await FFmpeg.Conversions.FromSnippet.Convert(this.MediaUrl, tempName)).SetAudioBitrate(320000).Start();
         }
     }
 }
