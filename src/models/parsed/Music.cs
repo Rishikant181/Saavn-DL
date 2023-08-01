@@ -1,6 +1,9 @@
 using Newtonsoft.Json;
 
 namespace ParsedData {
+    /// <summary>
+    /// The details of a music.
+    /// </summary>
     public class Music {
         /// <summary> The id of the music </summary>
         private string id;
@@ -53,15 +56,15 @@ namespace ParsedData {
         /// <summary>
         /// Fetches the direct media URL to the music and stored it in 'this' object.
         /// </summary>
-        public async Task GetMediaUrl() {
+        public void GetMediaUrl() {
             // Preparing the HTTP request
             HttpRequestMessage request = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"https://www.jiosaavn.com/api.php?__call=song.generateAuthToken&url={this.mediaUrl}&bitrate=320&api_version=4&_format=json&ctx=web6dot0&_marker=0"
+                $"https://www.jiosaavn.com/api.php?__call=song.generateAuthToken&url={Uri.EscapeDataString(this.mediaUrl)}&bitrate=320&api_version=4&_format=json&ctx=web6dot0&_marker=0"
             );
 
             // Sending the HTTP request and getting the response
-            string response = await Program.client.Send(request).Content.ReadAsStringAsync();
+            string response = Program.client.Send(request).Content.ReadAsStringAsync().Result;
 
             // Deserializing the response and storing the URL
             this.mediaUrl = JsonConvert.DeserializeObject<RawData.MediaUrl>(response)!.auth_url;
