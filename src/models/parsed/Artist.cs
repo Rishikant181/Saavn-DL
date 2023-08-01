@@ -18,7 +18,7 @@ public class Artist {
     /// Initializes a new Artist from the given raw artist info.
     /// </summary>
     ///
-    /// <param name = "artist">The raw data of the artist</param>
+    /// <param name = "artist"> The raw data of the artist </param>
     public Artist(RawData.Artist artist) {
         this.Id = artist.id;
         this.Name = artist.name;

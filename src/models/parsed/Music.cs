@@ -40,7 +40,7 @@ public class Music {
     /// Initializes a new Music from the raw music data.
     /// </summary>
     ///
-    /// <param name = "music">The raw music data</param>
+    /// <param name = "music"> The raw music data </param>
     public Music(RawData.Music music) {
         this.Id = music.id;
         this.Title = music.title;
@@ -75,7 +75,7 @@ public class Music {
     /// Appends the metadata of 'this' music to the specified file.
     /// </summary>
     ///
-    /// <param name="fileName">The full name of the music file to which metadata is to be appended</param>
+    /// <param name="fileName"> The full name of the music file to which metadata is to be appended </param>
     private void AppendMetadata(string fileName) {
         // Configuring taglib
         TagLib.Id3v2.Tag.DefaultVersion = 3;
@@ -105,7 +105,7 @@ public class Music {
     /// Downloads the music to the given location.
     /// </summary>
     ///
-    /// <param name = "location">The location where the music is to be saved</param>
+    /// <param name = "location"> The location where the music is to be saved </param>
     public void Download(string location) {
         // The full name of the music file
         string fileName = $"{location}\\{this.Album} - {this.Title}.mp3";

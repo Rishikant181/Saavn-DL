@@ -6,6 +6,6 @@ namespace RawData {
         public string id = default!;
         public string title = default!;
         public string list_count = default!;
-        public Music[] list = default!;
+        public List<Music> list = default!;
     }
 }
