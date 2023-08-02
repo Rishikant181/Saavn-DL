@@ -28,9 +28,15 @@ namespace Saavn {
             /// Downloads each song in the playlist.
             /// <summary>
             public void Download() {
+                // Logging
+                Console.WriteLine($"Downloading playlist {this._name}");
+
                 foreach (Music music in this._tracks) {
                     music.Download(this._name);
                 }
+
+                // Logging
+                Console.WriteLine("Done");
             }
         }
     }

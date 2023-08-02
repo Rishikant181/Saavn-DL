@@ -121,6 +121,9 @@ namespace Saavn {
 
                 // Appending metadata
                 this.AppendMetadata(fileName);
+
+                // Logging
+                Console.WriteLine($"{this._album} - {this._title}");
             }
         }
     }
