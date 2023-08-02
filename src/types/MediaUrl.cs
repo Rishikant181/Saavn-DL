@@ -1,4 +1,4 @@
-namespace RawData
+namespace Types
 {
     /// <summary>
     /// The raw data received when fetching media URL.

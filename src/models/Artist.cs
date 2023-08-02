@@ -20,7 +20,7 @@ public class Artist
     /// </summary>
     ///
     /// <param name = "artist"> The raw data of the artist </param>
-    public Artist(RawData.Artist artist)
+    public Artist(Types.Artist artist)
     {
         this.Id = artist.id;
         this.Name = artist.name;

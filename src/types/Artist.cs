@@ -1,4 +1,4 @@
-namespace RawData
+namespace Types
 {
     /// <summary>
     /// The raw data of an artist.

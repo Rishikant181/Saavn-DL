@@ -42,7 +42,7 @@ public class Music
     /// </summary>
     ///
     /// <param name = "music"> The raw music data </param>
-    public Music(RawData.Music music)
+    public Music(Types.Music music)
     {
         this.Id = music.id;
         this.Title = music.title;
@@ -71,7 +71,7 @@ public class Music
         string response = Program.client.Send(request).Content.ReadAsStringAsync().Result;
 
         // Deserializing the response and storing the URL
-        this.MediaUrl = JsonConvert.DeserializeObject<RawData.MediaUrl>(response)!.auth_url;
+        this.MediaUrl = JsonConvert.DeserializeObject<Types.MediaUrl>(response)!.auth_url;
     }
 
     /// <summary>
