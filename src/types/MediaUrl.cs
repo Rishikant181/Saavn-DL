@@ -1,5 +1,5 @@
 namespace Types {
-    namespace Response {
+    namespace Raw {
         /// <summary>
         /// The raw data received when fetching media URL.
         /// </summary>

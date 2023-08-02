@@ -1,5 +1,12 @@
 namespace Types {
-    namespace Response {
+    namespace Raw {
+        /// <summary>
+        /// The raw data received while fetching details of a music.
+        /// </summary>
+        public class MusicResponse {
+            public List<Music> songs = default!;
+        }
+
         /// <summary>
         /// The raw data of a music.
         /// </summary>

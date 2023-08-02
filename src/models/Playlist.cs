@@ -22,7 +22,7 @@ namespace Models {
                 string id = url.Substring(url.LastIndexOf('/') + 1);
 
                 // Getting the raw playlist
-                Types.Response.Playlist playlist = GetRawPlayList(id);
+                Types.Raw.Playlist playlist = GetRawPlayList(id);
 
                 // Initializing the playlist
                 this._name = playlist.title;
@@ -34,7 +34,7 @@ namespace Models {
             /// </summary>
             ///
             /// <param name="id"> The id of the playlist </param>
-            private static Types.Response.Playlist GetRawPlayList(string id) {
+            private static Types.Raw.Playlist GetRawPlayList(string id) {
                 // Preparing the HTTP request
                 HttpRequestMessage request = new HttpRequestMessage(
                     HttpMethod.Get ,
@@ -45,7 +45,7 @@ namespace Models {
                 string response = Program.client.Send(request).Content.ReadAsStringAsync().Result;
 
                 // Deserializing the response
-                Types.Response.Playlist rawPlaylist = JsonConvert.DeserializeObject<Types.Response.Playlist>(response)!;
+                Types.Raw.Playlist rawPlaylist = JsonConvert.DeserializeObject<Types.Raw.Playlist>(response)!;
 
                 return rawPlaylist;
             }

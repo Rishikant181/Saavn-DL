@@ -37,7 +37,7 @@ namespace Models {
             /// </summary>
             ///
             /// <param name = "music"> The raw music data </param>
-            public Music(Types.Response.Music music) {
+            public Music(Types.Raw.Music music) {
                 this._title = music.title;
                 this._albumArtUrl = music.image.Replace("150x150.jpg" , "500x500.jpg");
                 this._year = UInt16.Parse(music.year);
@@ -62,7 +62,7 @@ namespace Models {
                 string response = Program.client.Send(request).Content.ReadAsStringAsync().Result;
 
                 // Deserializing the response and storing the URL
-                this._mediaUrl = JsonConvert.DeserializeObject<Types.Response.MediaUrl>(response)!.auth_url;
+                this._mediaUrl = JsonConvert.DeserializeObject<Types.Raw.MediaUrl>(response)!.auth_url;
             }
 
             /// <summary>

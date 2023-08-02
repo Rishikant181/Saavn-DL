@@ -18,7 +18,7 @@ namespace Models {
             /// </summary>
             ///
             /// <param name = "artist"> The raw data of the artist </param>
-            public Artist(Types.Response.Artist artist) {
+            public Artist(Types.Raw.Artist artist) {
                 this.Name = artist.name;
                 this.Role = artist.role;
                 this.Image = artist.image;
