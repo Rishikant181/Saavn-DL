@@ -7,5 +7,5 @@
     /// <summary>
     /// Application entry point.
     /// </summary>
-    static void Main() => Console.WriteLine("Hello World!");
+    static void Main() => new Saavn.Music("JQIRXh5qYVc").Download("Downloads");
 }

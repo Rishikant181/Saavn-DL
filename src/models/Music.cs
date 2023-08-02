@@ -22,13 +22,33 @@ namespace Saavn {
         private readonly string _label;
 
         /// <summary> The media url to the music </summary>
-        private readonly string _mediaUrl;
+        private string _mediaUrl;
 
         /// <summary> The copyright text on the music </summary>
         private readonly string _copyright;
 
         /// <summary> The list of primary contributing artists </summary>
         private readonly List<Artist> _contributingArtists;
+
+        /// <summary>
+        /// Initializes a new Music from the music with the given id.
+        /// </summary>
+        ///
+        /// <param name="id"> The id of the music. </param>
+        public Music(string id) {
+            // Fetching the raw music data
+            Types.Raw.Music music = Utility.Http.FetchResource<Types.Raw.MusicResponse>(ResourceType.MUSIC , id).songs[0];
+
+            // Initializing from the raw music data
+            this._title = music.title;
+            this._albumArtUrl = music.image.Replace("150x150.jpg" , "500x500.jpg");
+            this._year = UInt16.Parse(music.year);
+            this._album = music.more_info.album;
+            this._label = music.more_info.label;
+            this._mediaUrl = music.more_info.encrypted_media_url;
+            this._copyright = music.more_info.copyright_text;
+            this._contributingArtists = music.more_info.artistMap.primary_artists.Select(artist => new Artist(artist)).ToList();
+        }
 
         /// <summary>
         /// Initializes a new Music from the raw music data.
@@ -41,7 +61,7 @@ namespace Saavn {
             this._year = UInt16.Parse(music.year);
             this._album = music.more_info.album;
             this._label = music.more_info.label;
-            this._mediaUrl = Utility.Http.FetchResource<Types.Raw.MediaUrl>(ResourceType.MEDIA_URL , music.id).auth_url;
+            this._mediaUrl = music.more_info.encrypted_media_url;
             this._copyright = music.more_info.copyright_text;
             this._contributingArtists = music.more_info.artistMap.primary_artists.Select(artist => new Artist(artist)).ToList();
         }
@@ -85,6 +105,9 @@ namespace Saavn {
         public void Download(string location) {
             // The full name of the music file
             string fileName = $"{location}\\{this._album} - {this._title}.mp3";
+
+            // Getting the direct media URL
+            this._mediaUrl = Utility.Http.FetchResource<Types.Raw.MediaUrl>(ResourceType.MEDIA_URL , this._mediaUrl).auth_url;
 
             // Creating a conversion task
             IConversion conversionTask = FFmpeg.Conversions.FromSnippet.Convert(this._mediaUrl , fileName).GetAwaiter().GetResult();
