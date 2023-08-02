@@ -89,7 +89,7 @@ namespace Saavn {
                 music.Tag.Pictures = new IPicture[] {
                     new TagLib.Id3v2.AttachmentFrame() {
                         Type = PictureType.FrontCover,
-                        Data = ByteVector.FromStream(Program.client.GetAsync(this._albumArtUrl).GetAwaiter().GetResult().Content.ReadAsStream())
+                        Data = ByteVector.FromStream(Utility.Http.client.GetAsync(this._albumArtUrl).GetAwaiter().GetResult().Content.ReadAsStream())
                     }
                 };
                 music.Tag.Publisher = this._label;
