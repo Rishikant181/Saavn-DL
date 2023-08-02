@@ -4,9 +4,6 @@ namespace Models {
         /// The details of an Artist.
         /// </summary>
         public class Artist {
-            /// <summary> The id of the artist </summary>
-            private string Id;
-
             /// <summary> The name of the artist </summary>
             public string Name;
 
@@ -22,7 +19,6 @@ namespace Models {
             ///
             /// <param name = "artist"> The raw data of the artist </param>
             public Artist(Types.Response.Artist artist) {
-                this.Id = artist.id;
                 this.Name = artist.name;
                 this.Role = artist.role;
                 this.Image = artist.image;

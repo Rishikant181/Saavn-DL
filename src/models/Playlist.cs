@@ -6,14 +6,11 @@ namespace Models {
         /// The details of a playlist.
         /// </summary>
         public class Playlist {
-            /// <summary> The id of the playlist </summary>
-            private string Id;
-
             /// <summary> The name of the playlist </summary>
-            private string Name;
+            private readonly string _name;
 
             /// <summary> The list of music tracks in the playlist </summary>
-            private List<Music> Tracks;
+            private readonly List<Music> _tracks;
 
             /// <summary>
             /// Initializes a new playlist from the playlist with given url.
@@ -25,12 +22,11 @@ namespace Models {
                 string id = url.Substring(url.LastIndexOf('/') + 1);
 
                 // Getting the raw playlist
-                Types.Response.Playlist playlist = this.GetRawPlayList(id);
+                Types.Response.Playlist playlist = GetRawPlayList(id);
 
                 // Initializing the playlist
-                this.Id = playlist.id;
-                this.Name = playlist.title;
-                this.Tracks = playlist.list.Select(track => new Music(track)).ToList();
+                this._name = playlist.title;
+                this._tracks = playlist.list.Select(track => new Music(track)).ToList();
             }
 
             /// <summary>
@@ -38,7 +34,7 @@ namespace Models {
             /// </summary>
             ///
             /// <param name="id"> The id of the playlist </param>
-            private Types.Response.Playlist GetRawPlayList(string id) {
+            private static Types.Response.Playlist GetRawPlayList(string id) {
                 // Preparing the HTTP request
                 HttpRequestMessage request = new HttpRequestMessage(
                     HttpMethod.Get ,
@@ -58,8 +54,8 @@ namespace Models {
             /// Downloads each song in the playlist.
             /// <summary>
             public void Download() {
-                foreach (Music music in this.Tracks) {
-                    music.Download(this.Name);
+                foreach (Music music in this._tracks) {
+                    music.Download(this._name);
                 }
             }
         }

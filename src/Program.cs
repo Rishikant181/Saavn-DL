@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-class Program {
+﻿class Program {
     /// <summary>
     /// The global HttpClient to be used.
     /// </summary>
@@ -9,7 +7,5 @@ class Program {
     /// <summary>
     /// Application entry point.
     /// </summary>
-    static void Main() {
-        Console.WriteLine("Hello World!");
-    }
+    static void Main() => Console.WriteLine("Hello World!");
 }
