@@ -5,8 +5,7 @@ using Xabe.FFmpeg;
 /// <summary>
 /// The details of a music.
 /// </summary>
-public class Music
-{
+public class Music {
     /// <summary> The id of the music </summary>
     private string Id;
 
@@ -42,11 +41,10 @@ public class Music
     /// </summary>
     ///
     /// <param name = "music"> The raw music data </param>
-    public Music(Types.Response.Music music)
-    {
+    public Music(Types.Response.Music music) {
         this.Id = music.id;
         this.Title = music.title;
-        this.AlbumArtUrl = music.image.Replace("150x150.jpg", "500x500.jpg");
+        this.AlbumArtUrl = music.image.Replace("150x150.jpg" , "500x500.jpg");
         this.Language = music.language;
         this.Year = UInt16.Parse(music.year);
         this.Album = music.more_info.album;
@@ -59,11 +57,10 @@ public class Music
     /// <summary>
     /// Fetches the direct media URL to the music and stored it in 'this' object.
     /// </summary>
-    private void GetMediaUrl()
-    {
+    private void GetMediaUrl() {
         // Preparing the HTTP request
         HttpRequestMessage request = new HttpRequestMessage(
-            HttpMethod.Get,
+            HttpMethod.Get ,
             $"https://www.jiosaavn.com/api.php?__call=song.generateAuthToken&url={Uri.EscapeDataString(this.MediaUrl)}&bitrate=320&api_version=4&_format=json&ctx=web6dot0&_marker=0"
         );
 
@@ -79,8 +76,7 @@ public class Music
     /// </summary>
     ///
     /// <param name="fileName"> The full name of the music file to which metadata is to be appended </param>
-    private void AppendMetadata(string fileName)
-    {
+    private void AppendMetadata(string fileName) {
         // Configuring taglib
         TagLib.Id3v2.Tag.DefaultVersion = 3;
         TagLib.Id3v2.Tag.ForceDefaultVersion = true;
@@ -110,8 +106,7 @@ public class Music
     /// </summary>
     ///
     /// <param name = "location"> The location where the music is to be saved </param>
-    public void Download(string location)
-    {
+    public void Download(string location) {
         // The full name of the music file
         string fileName = $"{location}\\{this.Album} - {this.Title}.mp3";
 
@@ -119,7 +114,7 @@ public class Music
         this.GetMediaUrl();
 
         // Creating a conversion task
-        var conversionTask = FFmpeg.Conversions.FromSnippet.Convert(this.MediaUrl, fileName).GetAwaiter().GetResult();
+        IConversion conversionTask = FFmpeg.Conversions.FromSnippet.Convert(this.MediaUrl , fileName).GetAwaiter().GetResult();
 
         // Setting the bitrate
         conversionTask.SetAudioBitrate(320000);

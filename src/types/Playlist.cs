@@ -1,12 +1,9 @@
-namespace Types
-{
-    namespace Response
-    {
+namespace Types {
+    namespace Response {
         /// <summary>
         /// The raw data of a playlist.
         /// </summary>
-        public class Playlist
-        {
+        public class Playlist {
             public string id = default!;
             public string title = default!;
             public string list_count = default!;

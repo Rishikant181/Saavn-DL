@@ -1,12 +1,9 @@
-namespace Types
-{
-    namespace Response
-    {
+namespace Types {
+    namespace Response {
         /// <summary>
         /// The raw data of a music.
         /// </summary>
-        public class Music
-        {
+        public class Music {
             public string id = default!;
             public string title = default!;
             public string image = default!;
@@ -18,8 +15,7 @@ namespace Types
         /// <summary>
         /// Additional raw data about a music.
         /// </summary>
-        public class ExtendedMusicInfo
-        {
+        public class ExtendedMusicInfo {
             public string music = default!;
             public string album_id = default!;
             public string album = default!;
@@ -33,8 +29,7 @@ namespace Types
         /// <summary>
         /// The raw data of contributing artists of the music.
         /// </summary>
-        public class ArtistMap
-        {
+        public class ArtistMap {
             public List<Artist> primary_artists = default!;
             public List<Artist> featured_artists = default!;
             public List<Artist> artists = default!;
