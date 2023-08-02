@@ -1,13 +1,16 @@
 namespace Types
 {
-    /// <summary>
-    /// The raw data of an artist.
-    /// </summary>
-    public class Artist
+    namespace Response
     {
-        public string id = default!;
-        public string name = default!;
-        public string role = default!;
-        public string image = default!;
+        /// <summary>
+        /// The raw data of an artist.
+        /// </summary>
+        public class Artist
+        {
+            public string id = default!;
+            public string name = default!;
+            public string role = default!;
+            public string image = default!;
+        }
     }
 }

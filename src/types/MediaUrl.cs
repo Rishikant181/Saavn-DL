@@ -1,11 +1,14 @@
 namespace Types
 {
-    /// <summary>
-    /// The raw data received when fetching media URL.
-    /// </summary>
-    public class MediaUrl
+    namespace Response
     {
-        public string auth_url = default!;
-        public string status = default!;
+        /// <summary>
+        /// The raw data received when fetching media URL.
+        /// </summary>
+        public class MediaUrl
+        {
+            public string auth_url = default!;
+            public string status = default!;
+        }
     }
 }

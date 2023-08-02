@@ -25,7 +25,7 @@ public class Playlist
         string id = url.Substring(url.LastIndexOf('/') + 1);
 
         // Getting the raw playlist
-        Types.Playlist playlist = this.GetRawPlayList(id);
+        Types.Response.Playlist playlist = this.GetRawPlayList(id);
 
         // Initializing the playlist
         this.Id = playlist.id;
@@ -38,7 +38,7 @@ public class Playlist
     /// </summary>
     ///
     /// <param name="id"> The id of the playlist </param>
-    private Types.Playlist GetRawPlayList(string id)
+    private Types.Response.Playlist GetRawPlayList(string id)
     {
         // Preparing the HTTP request
         HttpRequestMessage request = new HttpRequestMessage(
@@ -50,7 +50,7 @@ public class Playlist
         string response = Program.client.Send(request).Content.ReadAsStringAsync().Result;
 
         // Deserializing the response
-        Types.Playlist rawPlaylist = JsonConvert.DeserializeObject<Types.Playlist>(response)!;
+        Types.Response.Playlist rawPlaylist = JsonConvert.DeserializeObject<Types.Response.Playlist>(response)!;
 
         return rawPlaylist;
     }
