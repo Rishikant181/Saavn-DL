@@ -10,14 +10,11 @@ namespace Saavn {
         private readonly List<Music> _tracks;
 
         /// <summary>
-        /// Initializes a new playlist from the playlist with given url.
+        /// Initializes a new playlist from the playlist with given id.
         /// </summary>
         ///
-        /// <param name="url"> The playlist data URL </param>
-        public Playlist(string url) {
-            // Getting the playlist id from url
-            string id = url.Substring(url.LastIndexOf('/') + 1);
-
+        /// <param name="id"> The playlist id </param>
+        public Playlist(string id) {
             // Getting the raw playlist
             Types.Raw.Playlist playlist = Utility.Http.FetchResource<Types.Raw.Playlist>(ResourceType.PLAYLIST , id);
 

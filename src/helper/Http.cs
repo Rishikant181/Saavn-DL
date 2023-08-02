@@ -29,7 +29,7 @@ namespace Utility {
             if (type == Saavn.ResourceType.MUSIC) {
                 customParams = $"__call=webapi.get&token={id}&type=song&includeMetaTags=0";
             } else if (type == Saavn.ResourceType.PLAYLIST) {
-                customParams = $"__call=webapi.get&token={id}&type=playlist&includeMetaTags=0";
+                customParams = $"__call=webapi.get&token={id}&type=playlist&includeMetaTags=0&n=9999999999";
             } else {
                 customParams = $"__call=song.generateAuthToken&url={Uri.EscapeDataString(id)}&bitrate=128";
             }
