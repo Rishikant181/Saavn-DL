@@ -24,10 +24,30 @@
     ///
     /// <param name="args"> Commandline arguments </param>
     public static void Main(string[] args) {
-        // Getting the URL to download
-        string url = args[0];
+        // The URL to the song/playlist to download
+        string url = "";
+
+        // If no URL is provided as argument, asking for one
+        if (args.Length == 0) {
+            Console.Write("Enter URL of the song/playlist to download: ");
+            url = Console.ReadLine() ?? "";
+        }
+        // If URL is provided as argument
+        else {
+            url = args[0];
+        }
+
+        // If invalid URL provided
+        if (url.Length == 0) {
+            Console.WriteLine("Please Enter a valid URL!");
+            return;
+        }
 
         // Downloading
         DowloadFromUrl(url);
+
+        // Informing of download completion
+        Console.Write("\nDownload complete! Press any key to continue ");
+        Console.ReadKey();
     }
 }
