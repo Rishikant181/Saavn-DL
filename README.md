@@ -2,6 +2,11 @@
 
 A command-line tool for downloading music from JioSaavn
 
+# Prerequisites
+
+This tool depends on FFmpeg for media conversion. As such, FFmpeg needs to be installed.  
+To intall FFmpeg on Windows, follow the guide [here](https://www.geeksforgeeks.org/how-to-install-ffmpeg-on-windows/)
+
 # Usage
 
 1. Download the latest compiled binaries from the [Releases](https://github.com/Rishikant181/Saavn-DL/releases) section.
